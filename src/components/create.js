@@ -1,4 +1,5 @@
 import React from 'react';  
+import axios from 'axios';
 
 export class Create extends React.Component{
 
@@ -37,6 +38,19 @@ export class Create extends React.Component{
         +this.state.Title + ' Year: '
         +this.state.Year + ' Poster: '
         +this.state.Poster);
+
+        const newMovie = { // had to change the Title et to lowercase as thats what the server is looking for
+            title: this.state.Title,
+            year: this.state.Year,
+            poster: this.state.Poster
+        }
+        axios.post('http://localhost:4000/api/movies',newMovie) //sends the data to server 
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err)=>{ // will tell us if theres an error
+            console.log(err);
+        });
     }
     render(){
         return(
@@ -46,7 +60,7 @@ export class Create extends React.Component{
     <form onSubmit={this.onSubmit}>
 
         <div className="form-group">
-            <label>please add movie title</label>
+            <label>please add movie title</label> 
             <input type = 'text'
             className="form-control"
             value={this.state.Title}
